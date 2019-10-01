@@ -2,10 +2,7 @@ version: '3.2'
 
 services:
   elasticsearch:
-    build:
-      context: elasticsearch/
-      args:
-        ELK_VERSION: $ELK_VERSION
+    image: registry.cn-hangzhou.aliyuncs.com/anglecv/elasticsearch:7.3.1
     volumes:
       - type: bind
         source: ./elasticsearch/config/elasticsearch.yml
@@ -18,16 +15,13 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: "-Xmx1024m -Xms1024m"
       ELASTIC_PASSWORD: test@1q2w2e4R
     networks:
       - elk
 
   logstash:
-    build:
-      context: logstash/
-      args:
-        ELK_VERSION: $ELK_VERSION
+    image: registry.cn-hangzhou.aliyuncs.com/anglecv/logstash:7.3.1
     volumes:
       - type: bind
         source: ./logstash/config/logstash.yml
@@ -48,10 +42,7 @@ services:
       - elasticsearch
 
   kibana:
-    build:
-      context: kibana/
-      args:
-        ELK_VERSION: $ELK_VERSION
+    image: registry.cn-hangzhou.aliyuncs.com/anglecv/kibana:7.3.1
     volumes:
       - type: bind
         source: ./kibana/config/kibana.yml
